@@ -1,0 +1,7 @@
+../libs/utils.c:13:7:Dead_band	2
+../libs/utils.c:22:8:Sign	2
+../libs/utils.c:26:7:Clamping	3
+../libs/utils.c:32:7:Smoothing_Filter	1
+../libs/utils.c:37:7:Warp_Angle_Deg	3
+../libs/utils.c:43:7:Warp_Angle_Rad	3
+../libs/utils.c:49:7:Deadzone	2
