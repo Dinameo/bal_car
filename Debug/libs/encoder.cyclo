@@ -1,0 +1,4 @@
+../libs/encoder.c:6:6:Encoder_Init	1
+../libs/encoder.c:22:6:Encoder_Start	1
+../libs/encoder.c:26:6:Encoder_Reset	1
+../libs/encoder.c:39:6:Encoder_Calc_Speed	3
