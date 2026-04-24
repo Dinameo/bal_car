@@ -1,9 +1,0 @@
-../libs/hc05.c:12:6:HC05_Init	1
-../libs/hc05.c:28:6:HC05_Start_Rx_DMA	1
-../libs/hc05.c:34:14:HC05_Read_State	2
-../libs/hc05.c:40:6:HC05_Connect	2
-../libs/hc05.c:151:6:HC05_Tx_DMA	1
-../libs/hc05.c:156:7:String2Num	2
-../libs/hc05.c:231:6:Get_PID_Param	15
-../libs/hc05.c:268:6:Int2String	4
-../libs/hc05.c:297:6:Float2String	6

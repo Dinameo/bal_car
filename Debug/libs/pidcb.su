@@ -1,4 +1,0 @@
-../libs/pidcb.c:11:6:PID_Init	48	static
-../libs/pidcb.c:30:6:PID_Reset	16	static
-../libs/pidcb.c:37:7:Normalize	24	static
-../libs/pidcb.c:46:6:PID_Update	40	static
