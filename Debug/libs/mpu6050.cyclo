@@ -1,0 +1,13 @@
+../libs/mpu6050.c:6:6:MPU6050_Init	1
+../libs/mpu6050.c:13:6:MPU6050_Calibrate	2
+../libs/mpu6050.c:43:9:MPU6050_Config	2
+../libs/mpu6050.c:89:9:MPU6050_Cvt2Int16	1
+../libs/mpu6050.c:90:6:MPU6050_Read_Accel	2
+../libs/mpu6050.c:100:6:MPU6050_Read_Gyro	2
+../libs/mpu6050.c:110:6:MPU6050_Read_Temp	2
+../libs/mpu6050.c:118:6:MPU6050_Read_All	2
+../libs/mpu6050.c:134:7:MPU6050_Cvt_Data_Raw	1
+../libs/mpu6050.c:138:6:MPU6050_Cvt_Data_Receiver	4
+../libs/mpu6050.c:165:7:Complementary_Filter	1
+../libs/mpu6050.c:169:6:MPU6050_Calc_Angles	1
+../libs/mpu6050.c:178:6:MPU6050_Calc_Angles_With_Complementary	1

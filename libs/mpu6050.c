@@ -3,7 +3,7 @@
 
 #include "common.h"
 
-void MPU6050_Init(MPU6050_t *mpu, I2C_HandleTypeDef *hi2c, uint8_t addr, MPU6050_Unit_t unit, float ts)
+void MPU6050_Init(MPU6050_t *mpu, I2C_HandleTypeDef *hi2c, uint8_t addr, Unit_t unit, float ts)
 {
 	mpu->addr = addr;
 	mpu->hi2c = hi2c;
@@ -188,20 +188,3 @@ void MPU6050_Calc_Angles_With_Complementary(MPU6050_t *mpu, float alpha)
 
 	mpu->gyro_angle.yaw_angle = Warp_Angle_Deg(yaw_gyro);
 }
-float Change_Unit(float input, MPU6050_Unit_t unit_before, MPU6050_Unit_t unit_after)
-{
-	if (unit_before == RAD)
-	{
-		if (unit_after == DEG)
-			return MPU6050_Rad2Deg(input);
-		return input;
-	}
-	else
-	{
-		if (unit_after == RAD)
-			return MPU6050_Deg2Rad(input);
-		return input;
-	}
-}
-float MPU6050_Deg2Rad(float deg) { return (deg * PI) / 180.0; }
-float MPU6050_Rad2Deg(float rad) { return (rad * 180.0) / PI; }

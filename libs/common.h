@@ -15,7 +15,15 @@ typedef struct
 	GPIO_TypeDef* port;
 	uint16_t pin;
 } Pin_t;
-
+typedef enum {
+	RAD,
+	DEG,
+	RadPS,
+	RoundPS,
+	RoundPM,
+	MetrePS,
+	DegPS,
+} Unit_t;
 //typedef struct
 //{
 //	float min;
@@ -37,4 +45,5 @@ float Smoothing_Filter(float inp, float inp_prev, float alpha);
 float Warp_Angle_Rad(float angle);
 float Warp_Angle_Deg(float angle);
 float Deadzone(float input, float thresh);
+float Change_Unit(float input, Unit_t unit_before, Unit_t unit_after);
 #endif /* COMMON_H_ */

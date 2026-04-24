@@ -1,0 +1,10 @@
+../libs/utils.c:13:7:Dead_band	24	static
+../libs/utils.c:22:8:Sign	16	static
+../libs/utils.c:26:7:Clamping	24	static
+../libs/utils.c:32:7:Smoothing_Filter	24	static
+../libs/utils.c:37:7:Warp_Angle_Deg	16	static
+../libs/utils.c:43:7:Warp_Angle_Rad	16	static
+../libs/utils.c:49:7:Deadzone	16	static
+../libs/utils.c:53:7:To_RadPS	16	static
+../libs/utils.c:62:7:From_RadPS	16	static
+../libs/utils.c:70:7:Change_Unit	24	static

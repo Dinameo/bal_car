@@ -93,6 +93,8 @@ float v_ref_r = 0, e_prev_r = 0;
 float v_ref_l = 0, e_prev_l = 0;
 float pitch_rate = 0, pitch = 0;
 float yaw_rate = 0, yaw = 0;
+float speed_rpm_l = 0;
+float speed_rpm_r = 0;
 /* USER CODE END 0 */
 
 /**
@@ -153,6 +155,9 @@ int main(void)
 
   HAL_TIM_Base_Start_IT(&htim4); // Read Encoder
   HAL_TIM_Base_Start_IT(&htim1); // Read IMU
+  L298N_Set_Duty(&l298, MOTOR1, 100.0f);
+  L298N_Set_Duty(&l298, MOTOR2, 100.0f);
+  L298N_Update_Motor(&l298);
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -162,90 +167,14 @@ int main(void)
 
   while (1)
   {
-	  if(!hc05.connected_flag)
+	  if(read_speed_flag == 1)
 	  {
-		  PID_Reset(&pid_pitch);
-		  PID_Reset(&pid_yaw);
-		  PID_Reset(&pid_vec_left);
-		  PID_Reset(&pid_vec_right);
-		  L298N_Stop(&l298, MOTOR1);
-		  L298N_Stop(&l298, MOTOR2);
-		  HC05_Connect(&hc05);
-		  MPU6050_Calibrate(&mpu, MPU_N_SAMPLES);
-	  }
-	  else
-	  {
-      // Read MPU6050
-            if (read_imu_flag)
-            {
-              read_imu_flag = 0;
-              MPU6050_Read_All(&mpu);
-              MPU6050_Cvt_Data_Receiver(&mpu, MPU6050_ACCEL_CVT | MPU6050_GYRO_CVT, PITCH_LP_ALP, THRESH_YR);
-              MPU6050_Calc_Angles_With_Complementary(&mpu, PITCH_COMP_ALP);
+		  read_speed_flag = 0;
+		  Encoder_Calc_Speed(&enc_l, 0.9);
+		  Encoder_Calc_Speed(&enc_r, 0.9);
+		  speed_rpm_l = Change_Unit(enc_l.speed_filtered, RadPS, RoundPM);
+		  speed_rpm_r = Change_Unit(enc_r.speed_filtered, RadPS, RoundPM);
 
-              pitch = mpu.gyro_angle.pitch_angle;
-              pid_pitch.derivative = Smoothing_Filter(-mpu.data.gyro_y, pid_pitch.derivative, 0.7f);
-
-              pid_pitch.error = pid_pitch.pid_param.setpoint - pitch;
-
-              yaw = mpu.gyro_angle.yaw_angle;
-              pid_yaw.error = pid_yaw.pid_param.setpoint - yaw;
-
-
-              PID_Update(&pid_pitch);
-              PID_Update(&pid_yaw);
-              Mixer(&vec, pid_pitch.output, pid_yaw.output, PROP, VMAX);
-
-
-
-
-
-              v_ref_l = vec.vl;
-              v_ref_r = vec.vr;
-            }
-
-      // Read Encoder
-		  if (read_speed_flag)
-		  {
-			read_speed_flag = 0;
-			Encoder_Calc_Speed(&enc_l, 0.3);
-			Encoder_Calc_Speed(&enc_r, 0.3);
-			pid_vec_left.error = v_ref_l - enc_l.speed_filtered;
-			pid_vec_left.derivative = (pid_vec_left.error - e_prev_l)/ENC_TS;
-
-
-			pid_vec_right.error = v_ref_r - enc_r.speed_filtered;
-			pid_vec_right.derivative = (pid_vec_right.error - e_prev_r)/ENC_TS;
-
-			PID_Update(&pid_vec_left);
-			PID_Update(&pid_vec_right);
-
-
-			pid_vec_left.output = Dead_band(pid_vec_left.output, DEAD_BAND);
-			pid_vec_right.output = Dead_band(pid_vec_right.output, DEAD_BAND);
-
-			e_prev_l = pid_vec_left.error;
-			e_prev_r = pid_vec_right.error;
-
-			l298.duty1 = pid_vec_right.output;
-			l298.duty2 = pid_vec_left.output;
-
-			L298N_Update_Motor(&l298);
-//			if (hc05.rx_done == 1)
-//			{
-//				hc05.rx_done = 0;
-//				Get_PID_Param(&pid_pitch.pid_param, &pid_yaw.pid_param, hc05.rx_dma_buffer, RX_BUF_SIZE);
-//			}
-//			if (hc05.tx_done == 1)
-//			{
-////				float P = pid_pitch.pid_param.kp * pid_pitch.error;
-////				float I = pid_pitch.pid_param.ki * pid_pitch.integral;
-////				float D = pid_pitch.pid_param.kd * pid_pitch.derivative;
-//
-//				int len = sprintf((char *)hc05.tx_dma_buffer, "%.2f,%.2f,%.2f\r\n", pitch, enc_l.speed_filtered, enc_r.speed_filtered);
-//				HC05_Tx_DMA(&hc05, len);
-//			}
-		  }
 	  }
   }
     /* USER CODE END WHILE */

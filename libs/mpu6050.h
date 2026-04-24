@@ -42,10 +42,7 @@
 
 
 
-typedef enum {
-	RAD,
-	DEG
-} MPU6050_Unit_t;
+
 
 typedef struct {
     float angle;
@@ -101,7 +98,7 @@ typedef struct
 {
 	I2C_HandleTypeDef* hi2c;
 	uint8_t addr;
-	MPU6050_Unit_t unit;
+	Unit_t unit;
 	MPU6050_Data_Raw_t data_raw;
 	MPU6050_Data_t data;
 	MPU6050_Angle_t accel_angle;
@@ -110,7 +107,7 @@ typedef struct
 
 } MPU6050_t;
 
-void MPU6050_Init(MPU6050_t* mpu, I2C_HandleTypeDef* hi2c, uint8_t addr, MPU6050_Unit_t unit, float ts);
+void MPU6050_Init(MPU6050_t* mpu, I2C_HandleTypeDef* hi2c, uint8_t addr, Unit_t unit, float ts);
 uint8_t MPU6050_Config(MPU6050_t* mpu);
 int16_t MPU6050_Cvt2Int16(uint8_t high_byte, uint8_t low_byte);		//	2 bytes to int16
 float MPU6050_Cvt_Data_Raw(int16_t raw, float lsb_sensity);		//	Data_raw to data
@@ -122,12 +119,9 @@ void MPU6050_Read_Temp(MPU6050_t* mpu);
 void MPU6050_Read_All(MPU6050_t* mpu);
 void MPU6050_Cvt_Data_Receiver(MPU6050_t *mpu, MPU6050_cvt_mode_t cvt_mode, float alpha, float thresh_yaw_rate);
 void MPU6050_Accel_To_Angle(MPU6050_t* mpu);
-float MPU6050_Deg2Rad(float deg);
-float MPU6050_Rad2Deg(float rad);
 float Complementary_Filter(float angle_gyro, float angle_accel, float alpha);
 void MPU6050_Calc_Angles_With_Complementary(MPU6050_t *mpu, float alpha);
 void MPU6050_Calc_Angles(MPU6050_t* mpu);
-float Change_Unit(float input, MPU6050_Unit_t unit_before, MPU6050_Unit_t unit_after);
 
 
 

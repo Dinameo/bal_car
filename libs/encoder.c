@@ -50,7 +50,7 @@ void Encoder_Calc_Speed(Encoder_t* enc, float alpha)
 
 	delta = (int32_t)Deadzone((float)delta, 2.0f);
 	enc->cnt_prev = cnt_now;
-	enc->speed = (float)delta / (float)(enc->ppr * enc->mult) / enc->ts;
+	enc->speed = (float)delta / (float)(enc->ppr * enc->mult * 2.0f * PI) / enc->ts; // Radians/s
 	enc->speed_filtered = Smoothing_Filter(enc->speed, enc->speed_filtered, alpha);
 }
 //void Encoder_Calc_Speed(Encoder_t* enc)
